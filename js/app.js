@@ -85,6 +85,7 @@ const dice = document.querySelector(".dice");
 const rollBtn = document.querySelector(".roll");
 const formPlayer = document.querySelector(".generatePlayer");
 const start = document.querySelector(".start");
+const playersList = document.querySelector(".players__list");
 
 generateBoard = () => {
   fields.map((option, index) => {
@@ -119,8 +120,11 @@ generatePlayer = (e) => {
   e.preventDefault();
   player = document.createElement("div");
   player.classList.add("player");
-  player.innerHTML = inputPlayer.value;
-  player.style.backgroundColor = colorChanger();
+  const playerColor = colorChanger();
+  player.style.backgroundColor = playerColor;
+
+  playersList.innerHTML += `<div style="background-color:${playerColor}">${inputPlayer.value}</div>`;
+
   playerPosition(0, player);
   formPlayer.reset();
 };
@@ -134,6 +138,8 @@ diceRoll = () => {
 
 startGame = (e) => {
   e.preventDefault();
+  formPlayer.classList.add("hide");
+  start.classList.add("hide");
   let players = document.querySelectorAll(".player");
   console.log(players);
   [...players].map((item) => {
@@ -153,7 +159,7 @@ startGame = (e) => {
         playerPosition(10, item);
         fieldNumber = 10;
       }
-      
+
       console.log(fieldNumber);
     };
 
