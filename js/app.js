@@ -81,7 +81,7 @@ const fields = [
   "meta",
 ];
 const board = document.querySelector(".board");
-const dice = document.querySelector(".dice");
+const roll = document.querySelector(".roll");
 const rollBtn = document.querySelector(".roll");
 const formPlayer = document.querySelector(".generatePlayer");
 const start = document.querySelector(".start");
@@ -91,7 +91,15 @@ generateBoard = () => {
   fields.map((option, index) => {
     field = document.createElement("div");
     field.classList.add("field");
-    field.innerHTML = `<div class="field__content"><div class="field__number">${index}</div><div class="field__content">${option}</div></div><div class="players"></div>`;
+    field.innerHTML = `
+    <div class="field__content">
+    <div class="field__number">${index}
+    </div>
+    <div class="field__content">${option}
+    </div>
+    </div>
+    <div class="players">
+    </div>`;
 
     field.setAttribute("data-num", index);
     board.appendChild(field);
@@ -116,23 +124,19 @@ playerPosition = (con1, con2) => {
 };
 
 generatePlayer = (e) => {
-  console.log("wygenerowany gracz");
   e.preventDefault();
   player = document.createElement("div");
   player.classList.add("player");
   const playerColor = colorChanger();
   player.style.backgroundColor = playerColor;
-
   playersList.innerHTML += `<div style="background-color:${playerColor}">${inputPlayer.value}</div>`;
-
   playerPosition(0, player);
   formPlayer.reset();
 };
 
 diceRoll = () => {
   const random = generateRandom(7, 1);
-  dice.innerHTML = random;
-  console.log("wygenerowany kostka", random);
+  roll.innerHTML = random;
   return random;
 };
 
@@ -140,7 +144,7 @@ startGame = (e) => {
   e.preventDefault();
   formPlayer.classList.add("hide");
   start.classList.add("hide");
-  let players = document.querySelectorAll(".player");
+  const players = document.querySelectorAll(".player");
   console.log(players);
   [...players].map((item) => {
     let fieldNumber = 0;
@@ -150,19 +154,42 @@ startGame = (e) => {
         fieldNumber += diceRoll();
       }
       if (fieldNumber > 79) {
-        fieldNumber === 79;
+        fieldNumber = 79;
       }
-
       playerPosition(fieldNumber, item);
-
       if (fieldNumber === 3) {
         playerPosition(10, item);
         fieldNumber = 10;
       }
-
-      console.log(fieldNumber);
+      if (fieldNumber === 13) {
+        playerPosition(23, item);
+        fieldNumber = 23;
+      }
+      if (fieldNumber === 18) {
+        playerPosition(0, item);
+        fieldNumber = 0;
+      }
+      if (fieldNumber === 21) {
+        playerPosition(30, item);
+        fieldNumber = 30;
+      }
+      if (fieldNumber === 32) {
+        playerPosition(23, item);
+        fieldNumber = 23;
+      }
+      if (fieldNumber === 73) {
+        playerPosition(59, item);
+        fieldNumber = 59;
+      }
+      if (fieldNumber === 75) {
+        playerPosition(68, item);
+        fieldNumber = 68;
+      }
+      if (fieldNumber === 76) {
+        playerPosition(67, item);
+        fieldNumber = 67;
+      }
     };
-
     item.addEventListener("click", goTo);
   });
 };
